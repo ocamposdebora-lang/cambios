@@ -1,63 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D Ocampos Emprendimientos | Cambio</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D Ocampos Emprendimientos | Cambio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <img src="logo.png" alt="D Ocampos Emprendimientos" class="logo">
-        <h1>D Ocampos Emprendimientos</h1>
-        <p class="ubicacion">Ciudad del Este – Paraguay</p>
-    </header>
+  <header>
+    <img src="logo.png" alt="D Ocampos Emprendimientos" class="logo">
+    <h1>D Ocampos Emprendimientos</h1>
+    <p class="ubicacion">Ciudad del Este – Paraguay</p>
+  </header>
 
-    <div class="info">
-  <p>Compra BRL: <b id="compra"></b></p>
-  <p>Venta BRL: <b id="venta"></b></p>
-  <p class="fecha">
-    Cotización válida: <span id="fecha"></span>
-  </p>
-</div>
+  <!-- Cotización chica -->
+  <div class="info">
+    <p>Compra BRL: <b id="compra"></b></p>
+    <p>Venta BRL: <b id="venta"></b></p>
+    <p class="fecha">
+      Cotización válida: <span id="fecha"></span>
+    </p>
+  </div>
 
-    <input type="number" id="monto" placeholder="Ingrese monto">
+  <!-- Monto -->
+  <input
+    type="number"
+    id="monto"
+    placeholder="Ingrese monto"
+    inputmode="numeric"
+    autocomplete="off"
+  >
 
-    <select id="tipo" onchange="actualizarOpciones()">
-      <option value="COMPRA">Comprar Guaraníes</option>
-      <option value="VENTA">Comprar Reales (PIX)</option>
+  <!-- Tipo de operación -->
+  <select id="tipo" onchange="actualizarOpciones()">
+    <option value="COMPRA">Comprar Guaraníes</option>
+    <option value="VENTA">Comprar Reales (PIX)</option>
+  </select>
+
+  <!-- Zona de entrega -->
+  <div id="zona-container">
+    <select id="zona">
+      <option value="CDE">Ciudad del Este</option>
+      <option value="MINGA">Minga Guazú</option>
+      <option value="FRANCO">Presidente Franco</option>
+      <option value="BANCA">Banca Web</option>
     </select>
+    <p class="nota-zona">
+      Banca Web: transferencias bancarias y pagos de servicios
+    </p>
+  </div>
 
-    <div id="zona-container">
-      <select id="zona">
-        <option value="CDE">Ciudad del Este</option>
-        <option value="MINGA">Minga Guazú</option>
-        <option value="FRANCO">Presidente Franco</option>
-        <option value="BANCA">Banca Web</option>
-      </select>
-      <p class="nota-zona">Banca Web: transferencias bancarias y pagos de servicios</p>
-    </div>
+  <!-- Botón -->
+  <button onclick="convertir()">CALCULAR</button>
 
-    <button onclick="convertir()">CALCULAR</button>
+  <!-- Resultado -->
+  <div class="resultado" id="resultado"></div>
+  <div class="detalle" id="detalle"></div>
 
-    <div class="resultado" id="resultado"></div>
-    <div class="detalle" id="detalle"></div>
-
-    <div class="legal">
-        <p>
-        * Cotización referencial. Sujeta a cambios sin previo aviso.<br>
-        * Operaciones sujetas a disponibilidad.<br>
-        * Tasas según zona de entrega.<br>
-        * Consulte condiciones especiales por WhatsApp.
-        </p>
-    </div>
+  <!-- Aviso legal -->
+  <div class="legal">
+    <p>
+      * Cotización referencial. Sujeta a cambios sin previo aviso.<br>
+      * Operaciones sujetas a disponibilidad.<br>
+      * Tasas según zona de entrega.<br>
+      * Consulte condiciones especiales por WhatsApp.
+    </p>
+  </div>
 </div>
 
-<a class="whatsapp" href="https://wa.me/595982898734" target="_blank">WhatsApp</a>
+<!-- WhatsApp -->
+<a class="whatsapp" href="https://wa.me/595982898734" target="_blank">
+  WhatsApp
+</a>
 
+<!-- Scripts -->
 <script src="config.js"></script>
 <script src="main.js"></script>
+
 </body>
 </html>
