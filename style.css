@@ -1,17 +1,15 @@
-/* Reset */
 * {
   box-sizing: border-box;
 }
 
-/* Fondo general */
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   background: #f2f4f7;
-  color: #1a1a1a;
+  color: #111827;
 }
 
-/* Contenedor principal */
+/* Contenedor */
 .container {
   max-width: 420px;
   margin: auto;
@@ -23,21 +21,19 @@ body {
 /* Header */
 header {
   text-align: center;
-  margin-bottom: 18px;
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 15px;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .logo {
   max-width: 110px;
-  margin-bottom: 8px;
 }
 
 header h1 {
   font-size: 20px;
-  margin: 6px 0;
+  margin: 8px 0 4px;
   font-weight: 700;
-  letter-spacing: 0.2px;
 }
 
 .ubicacion {
@@ -45,35 +41,48 @@ header h1 {
   color: #6b7280;
 }
 
-/* Bloque cotización */
-.info {
+/* Tarjetas compra / venta */
+.cards {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.card {
+  flex: 1;
   background: #f9fafb;
   border: 1px solid #e5e7eb;
+  border-radius: 12px;
   padding: 14px;
-  border-radius: 10px;
   text-align: center;
-  margin-bottom: 18px;
 }
 
-.info p {
-  margin: 4px 0;
-  font-size: 14px;
-  color: #374151;
+.card .label {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
 }
 
-.info b {
-  font-size: 18px;
-  font-weight: 700;
-  color: #111827;
+.card .value {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  margin: 6px 0;
+}
+
+.card small {
+  font-size: 11px;
+  color: #6b7280;
 }
 
 .fecha {
   font-size: 12px;
+  text-align: center;
   color: #6b7280;
-  margin-top: 6px;
+  margin-bottom: 16px;
 }
 
-/* Inputs y selects */
+/* Inputs */
 input,
 select {
   width: 100%;
@@ -82,27 +91,100 @@ select {
   margin: 10px 0;
   border-radius: 10px;
   border: 1px solid #d1d5db;
-  background: #ffffff;
-  color: #111827;
 }
 
 input:focus,
 select:focus {
   outline: none;
-  border-color: #b89b4f; /* dorado muy sutil */
+  border-color: #b89b4f;
   box-shadow: 0 0 0 2px rgba(184, 155, 79, 0.2);
 }
 
-/* Botón principal */
+/* Botón */
 button {
   width: 100%;
   padding: 15px;
-  font-size: 17px;
   margin-top: 12px;
+  font-size: 17px;
   border-radius: 10px;
   border: none;
+  background: #111827;
+  color: #ffffff;
   font-weight: 700;
   cursor: pointer;
-  background: #111827; /* negro banco */
-  color: #ffffff;
-  transition
+}
+
+/* Resultado */
+.resultado {
+  margin-top: 18px;
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Resumen operación */
+.detalle {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Aviso legal */
+.legal {
+  font-size: 11.5px;
+  color: #6b7280;
+  margin-top: 22px;
+}
+
+/* WhatsApp */
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 54px;
+  height: 54px;
+  background: #25D366;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* 🌙 MODO OSCURO */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0f172a;
+    color: #e5e7eb;
+  }
+
+  .container {
+    background: #020617;
+  }
+
+  header {
+    border-color: #1e293b;
+  }
+
+  .card,
+  .detalle {
+    background: #020617;
+    border-color: #1e293b;
+  }
+
+  input,
+  select {
+    background: #020617;
+    border-color: #1e293b;
+    color: #e5e7eb;
+  }
+
+  button {
+    background: #1e293b;
+  }
+}
