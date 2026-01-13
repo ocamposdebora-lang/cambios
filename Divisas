@@ -1,0 +1,10 @@
+cambio-divisas/
+│
+├── index.html          (clientes)
+├── style.css
+├── main.js
+│
+├── config.js           (COTIZACIÓN DEL DÍA + HISTORIAL)
+│
+├── admin-q7K9s2.html   (panel oculto)
+├── admin.js
