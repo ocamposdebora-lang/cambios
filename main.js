@@ -6,10 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("venta").innerText = `${VENTA_BRL_PYG} PYG`;
 
   function actualizarOpciones() {
-    const tipo = document.getElementById("tipo").value;
-    document.getElementById("zona-container").style.display =
-      tipo === "COMPRA" ? "block" : "none";
+  const tipo = document.getElementById("tipo").value;
+  const montoInput = document.getElementById("monto");
+  const zonaContainer = document.getElementById("zona-container");
+
+  if (tipo === "COMPRA") {
+    // Comprar Guaraníes → el cliente ingresa PYG
+    montoInput.placeholder = "Ingrese monto en Guaraníes (PYG)";
+    zonaContainer.style.display = "block";
+  } else {
+    // Comprar PIX → el cliente ingresa BRL
+    montoInput.placeholder = "Ingrese monto en Reales (BRL)";
+    zonaContainer.style.display = "none";
   }
+}
 
   actualizarOpciones();
 
