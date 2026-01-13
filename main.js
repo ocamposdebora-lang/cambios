@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const tasa = obtenerTasa(zona);
 
       const brlBruto = monto / COMPRA_BRL_PYG;   // BRL antes de tasa
-      const brlNeto = brlBruto - tasa;           // BRL final después de tasa
+      const brlNeto = brlBruto + tasa;           // BRL final después de tasa
 
       if (brlNeto <= 0) {
         alert("El monto no cubre la tasa de entrega");
