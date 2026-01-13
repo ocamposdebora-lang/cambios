@@ -1,27 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Detectar idioma
+  // Idioma automático
   const lang = navigator.language.startsWith("pt") ? "pt" : "es";
-
-  // Textos
-  const textos = {
-    es: {
-      comprarGs: "Comprar Guaraníes",
-      comprarPix: "Comprar Reales (PIX)",
-      placeholderGs: "Ingrese monto en Guaraníes (PYG)",
-      placeholderPix: "Ingrese monto en Reales (BRL)",
-      notaZona: "Banca Web: transferencias bancarias y pagos de servicios"
-    },
-    pt: {
-      comprarGs: "Comprar Guaranis",
-      comprarPix: "Comprar Reais (PIX)",
-      placeholderGs: "Digite o valor em Guaranis (PYG)",
-      placeholderPix: "Digite o valor em Reais (BRL)",
-      notaZona: "Banca Web: transferências bancárias e pagamentos"
-    }
-  };
-
-  const t = textos[lang];
 
   // Mostrar cotización
   document.getElementById("compra").innerText =
@@ -31,8 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     VENTA_BRL_PYG.toLocaleString("es-PY");
 
   document.getElementById("fecha").innerText = FECHA_COTIZACION;
+  document.getElementById("hora").innerText = `(${HORA_COTIZACION} hs)`;
 
-  // Actualizar placeholders y zona
+  // Cambios según tipo
   window.actualizarOpciones = function () {
     const tipo = document.getElementById("tipo").value;
     const monto = document.getElementById("monto");
@@ -41,10 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
     monto.value = "";
 
     if (tipo === "COMPRA") {
-      monto.placeholder = t.placeholderGs;
+      monto.placeholder =
+        lang === "pt"
+          ? "Digite o valor em Guaranis (PYG)"
+          : "Ingrese monto en Guaraníes (PYG)";
       zonaContainer.style.display = "block";
     } else {
-      monto.placeholder = t.placeholderPix;
+      monto.placeholder =
+        lang === "pt"
+          ? "Digite o valor em Reais (BRL)"
+          : "Ingrese monto en Reales (BRL)";
       zonaContainer.style.display = "none";
     }
   };
@@ -59,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return 0;
   }
 
-  // Función principal
+  // Convertir
   window.convertir = function () {
     const tipo = document.getElementById("tipo").value;
     const montoInput = document.getElementById("monto").value;
@@ -68,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const detalleEl = document.getElementById("detalle");
     const whatsappLink = document.getElementById("whatsappLink");
 
-    // LIMPIAR SEPARADORES
+    // Limpiar separadores
     const monto = Number(
       montoInput.replace(/\./g, "").replace(",", ".")
     );
@@ -80,11 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let mensaje = "";
 
-    // 🟢 COMPRAR GUARANÍES (cliente ingresa PYG → recibe BRL)
+    // 🟢 Comprar Guaraníes (PYG → BRL)
     if (tipo === "COMPRA") {
       const tasa = obtenerTasa(zona);
-      const brlBruto = monto / COMPRA_BRL_PYG;
-      const brlFinal = brlBruto + tasa; // 👉 SE SUMA LA TASA
+      const brlBase = monto / COMPRA_BRL_PYG;
+      const brlFinal = brlBase + tasa;
 
       resultadoEl.innerText =
         brlFinal.toFixed(2).replace(".", ",") + " BRL";
@@ -93,19 +80,19 @@ document.addEventListener("DOMContentLoaded", () => {
         Operación: Comprar Guaraníes<br>
         Monto: ${monto.toLocaleString("es-PY")} PYG<br>
         Cotización (Compra): 1 BRL = ${COMPRA_BRL_PYG.toLocaleString("es-PY")} PYG<br>
-        BRL calculado: ${brlBruto.toFixed(2).replace(".", ",")} BRL<br>
         Tasa entrega: +${tasa.toFixed(2).replace(".", ",")} BRL<br>
-        <b>Total a pagar: ${brlFinal.toFixed(2).replace(".", ",")} BRL</b>
+        <b>Total: ${brlFinal.toFixed(2).replace(".", ",")} BRL</b>
       `;
 
       mensaje =
         `Hola, quiero consultar para comprar guaraníes.\n` +
         `Monto: ${monto.toLocaleString("es-PY")} PYG\n` +
         `Zona: ${zona}\n` +
+        `Cotización: ${FECHA_COTIZACION} ${HORA_COTIZACION}\n` +
         `Total: ${brlFinal.toFixed(2).replace(".", ",")} BRL`;
-
     }
-    // 🔵 COMPRAR PIX (cliente ingresa BRL → recibe PYG)
+
+    // 🔵 Comprar PIX (BRL → PYG)
     else {
       const pyg = monto * VENTA_BRL_PYG;
 
@@ -122,12 +109,12 @@ document.addEventListener("DOMContentLoaded", () => {
       mensaje =
         `Hola, quiero consultar para comprar PIX.\n` +
         `Monto: ${monto.toFixed(2).replace(".", ",")} BRL\n` +
+        `Cotización: ${FECHA_COTIZACION} ${HORA_COTIZACION}\n` +
         `Total: ${pyg.toLocaleString("es-PY")} PYG`;
     }
 
-    // WhatsApp con mensaje
+    // WhatsApp
     whatsappLink.href =
       "https://wa.me/595982898734?text=" + encodeURIComponent(mensaje);
   };
-
 });
