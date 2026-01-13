@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (zona === "CDE") return 10;
     if (zona === "MINGA") return 20;
     if (zona === "FRANCO") return 15;
-    return 0;
+    return 0; // BANCA WEB
   }
 
   window.convertir = function () {
@@ -46,13 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // ⏰ Hora REAL de la consulta
+    // ⏰ Hora real de la consulta
     const ahora = new Date();
     const horaConsulta =
       ahora.getHours().toString().padStart(2, "0") + ":" +
       ahora.getMinutes().toString().padStart(2, "0");
 
-    document.getElementById("hora").innerText = `(${horaConsulta} hs)`;
+    const horaEl = document.getElementById("hora");
+    if (horaEl) {
+      horaEl.innerText = `(${horaConsulta} hs)`;
+    }
 
     let mensaje = "";
 
@@ -100,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `Total: ${formatoPYG(pyg)} PYG`;
     }
 
+    // 📲 WhatsApp con mensaje
     whatsappLink.href =
       "https://wa.me/595982898734?text=" + encodeURIComponent(mensaje);
   };
@@ -108,7 +112,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // 🧮 FORMATOS
 function formatoBRL(valor) {
-  return valor.toFixed(2).replace(".", ",");
+  return valor.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
 }
 
 function formatoPYG(valor) {
