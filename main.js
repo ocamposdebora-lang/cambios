@@ -1,167 +1,105 @@
-let whatsappURL = ""; // URL final segura para WhatsApp
-
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Mostrar cotización
-  document.getElementById("compra").innerText =
-    `${COMPRA_BRL_PYG.toLocaleString("es-PY")} PYG`;
-  document.getElementById("venta").innerText =
-    `${VENTA_BRL_PYG.toLocaleString("es-PY")} PYG`;
+  const lang = navigator.language.startsWith("pt") ? "pt" : "es";
 
-  document.getElementById("fecha").innerText = FECHA_COTIZACION;
+  const textos = {
+    es: {
+      titulo: "D Ocampos Emprendimientos",
+      ubicacion: "Ciudad del Este – Paraguay",
+      compra: "Compra BRL",
+      venta: "Venta BRL",
+      fecha: "Cotización válida",
+      pix: "Comprar Reales (PIX)",
+      gs: "Comprar Guaraníes",
+      placeholderPix: "Ingrese monto en Reales (BRL)",
+      placeholderGs: "Ingrese monto en Guaraníes (PYG)",
+      notaZona: "Banca Web: transferencias bancarias y pagos de servicios",
+      calcular: "CALCULAR",
+      legal: `
+        * Cotización referencial.<br>
+        * Operaciones sujetas a disponibilidad.<br>
+        * Tasas según zona de entrega.
+      `
+    },
+    pt: {
+      titulo: "D Ocampos Empreendimentos",
+      ubicacion: "Ciudad del Este – Paraguai",
+      compra: "Compra BRL",
+      venta: "Venda BRL",
+      fecha: "Cotação válida",
+      pix: "Comprar Reais (PIX)",
+      gs: "Comprar Guaranis",
+      placeholderPix: "Digite o valor em Reais (BRL)",
+      placeholderGs: "Digite o valor em Guaranis (PYG)",
+      notaZona: "Banca Web: transferências bancárias e pagamentos",
+      calcular: "CALCULAR",
+      legal: `
+        * Cotação referencial.<br>
+        * Operações sujeitas à disponibilidade.<br>
+        * Taxas conforme zona de entrega.
+      `
+    }
+  };
 
-  const ahora = new Date();
-  document.getElementById("hora").innerText =
-    ahora.toLocaleTimeString("es-PY", { hour: "2-digit", minute: "2-digit" }) + " hs";
+  const t = textos[lang];
+
+  // textos
+  titulo.innerText = t.titulo;
+  ubicacion.innerText = t.ubicacion;
+  txtCompra.innerText = t.compra;
+  txtVenta.innerText = t.venta;
+  txtFecha.innerText = t.fecha;
+  optPix.innerText = t.pix;
+  optGs.innerText = t.gs;
+  btnCalcular.innerText = t.calcular;
+  notaZona.innerText = t.notaZona;
+  legal.innerHTML = t.legal;
+
+  compra.innerText = COMPRA_BRL_PYG.toLocaleString();
+  venta.innerText = VENTA_BRL_PYG.toLocaleString();
+  fecha.innerText = FECHA_COTIZACION;
+
+  window.actualizarOpciones = function () {
+    const tipo = document.getElementById("tipo").value;
+    monto.value = "";
+    if (tipo === "VENTA") {
+      monto.placeholder = t.placeholderPix;
+      zonaContainer.style.display = "none";
+    } else {
+      monto.placeholder = t.placeholderGs;
+      zonaContainer.style.display = "block";
+    }
+  };
 
   actualizarOpciones();
-  document.getElementById("monto").addEventListener("input", formatearMonto);
 
-  // Botón WhatsApp: redirección directa (MÓVILES OK)
-  const btn = document.getElementById("btnWhatsapp");
-  btn.addEventListener("click", (e) => {
-    if (!whatsappURL) {
-      e.preventDefault();
-      alert("Primero realice el cálculo");
-      return;
+  function tasaZona(z) {
+    if (z === "CDE") return 10;
+    if (z === "MINGA") return 20;
+    if (z === "FRANCO") return 15;
+    return 0;
+  }
+
+  window.convertir = function () {
+    const tipo = document.getElementById("tipo").value;
+    const montoNum = Number(monto.value.replace(/\./g, "").replace(",", "."));
+    if (!montoNum) return alert("Monto inválido");
+
+    let mensaje = "";
+
+    if (tipo === "VENTA") {
+      const pyg = montoNum * VENTA_BRL_PYG;
+      resultado.innerText = pyg.toLocaleString() + " PYG";
+      mensaje = `Consulta: Comprar PIX por ${montoNum.toLocaleString()} BRL`;
+    } else {
+      const zona = document.getElementById("zona").value;
+      const tasa = tasaZona(zona);
+      const brl = montoNum / COMPRA_BRL_PYG + tasa;
+      resultado.innerText = brl.toFixed(2) + " BRL";
+      mensaje = `Consulta: Comprar Guaraníes por ${montoNum.toLocaleString()} PYG (${zona})`;
     }
-    window.location.href = whatsappURL;
-  });
+
+    whatsappLink.href =
+      `https://wa.me/595982898734?text=${encodeURIComponent(mensaje)}`;
+  };
 });
-
-// =====================
-// UI
-// =====================
-function actualizarOpciones() {
-  const tipo = document.getElementById("tipo").value;
-  const monto = document.getElementById("monto");
-  const zona = document.getElementById("zona-container");
-
-  monto.value = "";
-  document.getElementById("resultado").innerText = "";
-  document.getElementById("detalle").innerHTML = "";
-  whatsappURL = "";
-
-  if (tipo === "VENTA") {
-    monto.placeholder = "Ingrese monto en Reales (BRL)";
-    zona.style.display = "none";
-  } else {
-    monto.placeholder = "Ingrese monto en Guaraníes (PYG)";
-    zona.style.display = "block";
-  }
-}
-
-// =====================
-// FORMATO MONTO
-// =====================
-function formatearMonto() {
-  const tipo = document.getElementById("tipo").value;
-  let v = this.value.replace(/\D/g, "");
-
-  if (!v) {
-    this.value = "";
-    return;
-  }
-
-  if (tipo === "VENTA") {
-    const n = parseInt(v, 10) / 100;
-    this.value = n.toLocaleString("pt-BR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-  } else {
-    this.value = Number(v).toLocaleString("es-PY");
-  }
-}
-
-// =====================
-// TASAS
-// =====================
-function obtenerTasa(zona) {
-  if (zona === "CDE") return 10;
-  if (zona === "MINGA") return 20;
-  if (zona === "FRANCO") return 15;
-  return 0;
-}
-
-// =====================
-// CONVERSIÓN + WHATSAPP
-// =====================
-function convertir() {
-  const tipo = document.getElementById("tipo").value;
-  const resultado = document.getElementById("resultado");
-  const detalle = document.getElementById("detalle");
-
-  let monto = document.getElementById("monto").value
-    .replace(/\./g, "")
-    .replace(",", ".");
-  monto = parseFloat(monto);
-
-  if (isNaN(monto) || monto <= 0) {
-    alert("Ingrese un monto válido");
-    return;
-  }
-
-  // =========================
-  // COMPRAR REALES (PIX)
-  // BRL → PYG
-  // =========================
-  if (tipo === "VENTA") {
-    const pyg = monto * VENTA_BRL_PYG;
-
-    resultado.innerText = `${pyg.toLocaleString("es-PY")} PYG`;
-
-    detalle.innerHTML = `
-      Operación: Comprar Reales (PIX)<br>
-      Monto: ${monto.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} BRL<br>
-      Cotización: 1 BRL = ${VENTA_BRL_PYG} PYG<br>
-      Tasa: 0
-    `;
-
-    const msg = `
-Hola, consulto para Comprar Reales (PIX)
-Monto: ${monto.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} BRL
-Cotización: 1 BRL = ${VENTA_BRL_PYG} PYG
-Total: ${pyg.toLocaleString("es-PY")} PYG
-    `;
-
-    whatsappURL =
-      "https://wa.me/595982898734?text=" +
-      encodeURIComponent(msg.trim());
-
-    return;
-  }
-
-  // =========================
-  // COMPRAR GUARANÍES
-  // PYG → BRL
-  // =========================
-  const zona = document.getElementById("zona").value;
-  const tasa = obtenerTasa(zona);
-
-  const brlBase = monto / COMPRA_BRL_PYG;
-  const brlFinal = brlBase + tasa;
-
-  resultado.innerText = `${brlFinal.toFixed(2)} BRL`;
-
-  detalle.innerHTML = `
-    Operación: Comprar Guaraníes<br>
-    Monto: ${monto.toLocaleString("es-PY")} PYG<br>
-    Cotización: 1 BRL = ${COMPRA_BRL_PYG} PYG<br>
-    Zona: ${zona}<br>
-    Tasa entrega: +${tasa.toFixed(2)} BRL<br>
-    Total a pagar: ${brlFinal.toFixed(2)} BRL
-  `;
-
-  const msg2 = `
-Hola, consulto para Comprar Guaraníes
-Monto: ${monto.toLocaleString("es-PY")} PYG
-Cotización: 1 BRL = ${COMPRA_BRL_PYG} PYG
-Zona: ${zona}
-Total a pagar: ${brlFinal.toFixed(2)} BRL
-  `;
-
-  whatsappURL =
-    "https://wa.me/595982898734?text=" +
-    encodeURIComponent(msg2.trim());
-}
