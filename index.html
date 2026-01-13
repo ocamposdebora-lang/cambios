@@ -15,71 +15,71 @@
     <p class="ubicacion">Ciudad del Este – Paraguay</p>
   </header>
 
-  <!-- Cotización chica -->
-<div class="info">
-  <p>Compra BRL: <b id="compra"></b></p>
-  <p>Venta BRL: <b id="venta"></b></p>
-  <p class="fecha">
-    Cotización válida:
-    <span id="fecha"></span> –
-    <span id="hora"></span>
-  </p>
-</div>
+  <!-- Cotización -->
+  <div class="info">
+    <p>Compra BRL: <b id="compra"></b></p>
+    <p>Venta BRL: <b id="venta"></b></p>
+    <p class="fecha">
+      Cotización válida:
+      <span id="fecha"></span> –
+      <span id="hora"></span>
+    </p>
+  </div>
+
+  <!-- Tipo de operación -->
+  <label class="label">Tipo de operación</label>
+  <select id="tipo" onchange="actualizarOpciones()">
+    <option value="VENTA">Comprar Reales (PIX)</option>
+    <option value="COMPRA">Comprar Guaraníes</option>
+  </select>
 
   <!-- Monto -->
+  <label class="label">Monto</label>
   <input
-    type="number"
+    type="text"
     id="monto"
     placeholder="Ingrese monto"
     inputmode="numeric"
     autocomplete="off"
   >
 
-  <!-- Tipo de operación -->
-  <select id="tipo" onchange="actualizarOpciones()">
-    <option value="COMPRA">Comprar Guaraníes</option>
-    <option value="VENTA">Comprar Reales (PIX)</option>
-  </select>
-
-  <!-- Zona de entrega -->
+  <!-- Zona -->
   <div id="zona-container">
+    <label class="label">Seleccione zona de entrega</label>
     <select id="zona">
       <option value="CDE">Ciudad del Este</option>
       <option value="MINGA">Minga Guazú</option>
       <option value="FRANCO">Presidente Franco</option>
       <option value="BANCA">Banca Web</option>
     </select>
+
     <p class="nota-zona">
       Banca Web: transferencias bancarias y pagos de servicios
     </p>
   </div>
 
-  <!-- Botón -->
   <button onclick="convertir()">CALCULAR</button>
 
-  <!-- Resultado -->
   <div class="resultado" id="resultado"></div>
   <div class="detalle" id="detalle"></div>
 
-  <!-- Aviso legal -->
+  <!-- WhatsApp centrado -->
+  <div class="whatsapp-box">
+    <a href="https://wa.me/595982898734" target="_blank" class="whatsapp-btn">
+      💬 Consultar por WhatsApp
+    </a>
+  </div>
+
   <div class="legal">
     <p>
       * Cotización referencial. Sujeta a cambios al momento de concretar la operación.<br>
       * Operaciones sujetas a disponibilidad.<br>
-      * Tasas según zona de entrega.<br>
-      * Consulte condiciones especiales por WhatsApp.
+      * Tasas según zona de entrega.
     </p>
   </div>
 </div>
 
-<!-- WhatsApp -->
-<a class="whatsapp" href="https://wa.me/595982898734" target="_blank">
-  WhatsApp
-</a>
-
-<!-- Scripts -->
 <script src="config.js"></script>
 <script src="main.js"></script>
-
 </body>
 </html>
