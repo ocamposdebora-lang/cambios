@@ -25,15 +25,6 @@ header {
 .ubicacion {
   font-size: 14px;
   color: #555;
-}
-
-.destacada {
-  background: linear-gradient(135deg, #e6c87a, #c9a14a);
-  text-align: center;
-  padding: 15px;
-  border-radius: 10px;
-  margin: 15px 0;
-}
 
 .info {
   background: #f0e6d2;
