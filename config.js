@@ -1,4 +1,4 @@
-const COMPRA_BRL_PYG = 1190;
+const COMPRA_BRL_PYG = 1195;
 const VENTA_BRL_PYG = 1255;
 
 // Fecha y hora EDITADAS MANUALMENTE
