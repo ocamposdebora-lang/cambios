@@ -1,4 +1,4 @@
-/* Reset básico */
+/* Reset */
 * {
   box-sizing: border-box;
 }
@@ -7,7 +7,7 @@
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(180deg, #f7f3ee, #efe6d6);
+  background: #f2f4f7;
   color: #1a1a1a;
 }
 
@@ -15,57 +15,61 @@ body {
 .container {
   max-width: 420px;
   margin: auto;
-  background: #fff;
+  background: #ffffff;
   min-height: 100vh;
   padding: 22px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* Header */
 header {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 15px;
 }
 
 .logo {
-  max-width: 120px;
+  max-width: 110px;
   margin-bottom: 8px;
 }
 
 header h1 {
-  font-size: 22px;
-  margin: 5px 0;
+  font-size: 20px;
+  margin: 6px 0;
   font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
 .ubicacion {
-  font-size: 14px;
-  color: #666;
+  font-size: 13px;
+  color: #6b7280;
 }
 
 /* Bloque cotización */
 .info {
-  background: linear-gradient(135deg, #f3e6c8, #ead8aa);
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
   padding: 14px;
-  border-radius: 12px;
+  border-radius: 10px;
   text-align: center;
   margin-bottom: 18px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .info p {
   margin: 4px 0;
-  font-size: 15px;
+  font-size: 14px;
+  color: #374151;
 }
 
 .info b {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
+  color: #111827;
 }
 
 .fecha {
   font-size: 12px;
-  color: #555;
+  color: #6b7280;
   margin-top: 6px;
 }
 
@@ -74,97 +78,31 @@ input,
 select {
   width: 100%;
   padding: 14px;
-  font-size: 17px;
+  font-size: 16px;
   margin: 10px 0;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  background: #fafafa;
-  transition: border 0.2s, box-shadow 0.2s;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
 }
 
 input:focus,
 select:focus {
   outline: none;
-  border-color: #c9a14a;
-  box-shadow: 0 0 0 3px rgba(201, 161, 74, 0.2);
-  background: #fff;
+  border-color: #b89b4f; /* dorado muy sutil */
+  box-shadow: 0 0 0 2px rgba(184, 155, 79, 0.2);
 }
 
 /* Botón principal */
 button {
   width: 100%;
   padding: 15px;
-  font-size: 18px;
-  margin-top: 10px;
-  border-radius: 14px;
+  font-size: 17px;
+  margin-top: 12px;
+  border-radius: 10px;
   border: none;
   font-weight: 700;
   cursor: pointer;
-  background: linear-gradient(135deg, #d4b15f, #b8943d);
-  color: #1a1a1a;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-}
-
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-  opacity: 0.95;
-}
-
-button:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* Resultado */
-.resultado {
-  margin-top: 18px;
-  font-size: 26px;
-  font-weight: 800;
-  text-align: center;
-  color: #000;
-}
-
-/* Detalle del cálculo */
-.detalle {
-  margin-top: 12px;
-  font-size: 14px;
-  background: #f6efe0;
-  padding: 14px;
-  border-radius: 12px;
-  color: #333;
-  line-height: 1.4;
-}
-
-/* Aviso legal */
-.legal {
-  font-size: 12px;
-  color: #666;
-  margin-top: 22px;
-  line-height: 1.4;
-}
-
-/* WhatsApp flotante */
-.whatsapp {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 56px;
-  height: 56px;
-  background: #25D366;
-  color: white;
-  border-radius: 50%;
-  text-decoration: none;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-
-.whatsapp:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
+  background: #111827; /* negro banco */
+  color: #ffffff;
+  transition
