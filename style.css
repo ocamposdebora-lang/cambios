@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: #f7f3ee;
+  color: #000;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  background: #fffaf2;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+}
+
+.logo {
+  max-width: 120px;
+  margin-bottom: 10px;
+}
+
+.ubicacion {
+  font-size: 14px;
+  color: #555;
+}
+
+.destacada {
+  background: linear-gradient(135deg, #e6c87a, #c9a14a);
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.info {
+  background: #f0e6d2;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #c9a14a;
+  color: black;
+  border: none;
+  font-weight: bold;
+}
+
+.resultado {
+  margin-top: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.detalle {
+  margin-top: 10px;
+  font-size: 14px;
+  background: #f0e6d2;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.legal {
+  font-size: 12px;
+  color: #555;
+  margin-top: 20px;
+}
+
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  padding: 15px;
+  border-radius: 50%;
+  text-decoration: none;
+  font-weight: bold;
+}
