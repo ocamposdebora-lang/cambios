@@ -6,6 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("fecha").innerText = FECHA_COTIZACION;
 
+// Hora de actualización
+const ahora = new Date();
+const horaFormateada = ahora.toLocaleTimeString("es-PY", {
+  hour: "2-digit",
+  minute: "2-digit"
+});
+document.getElementById("hora").innerText = `${horaFormateada} hs`;
+
   document.getElementById("compra").innerText =
     `${COMPRA_BRL_PYG.toLocaleString()} PYG`;
 
