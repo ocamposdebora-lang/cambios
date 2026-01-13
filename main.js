@@ -1,8 +1,5 @@
 document.getElementById("fecha").innerText = FECHA_COTIZACION;
 
-document.getElementById("cotizacion-destacada").innerText =
-  `1 BRL = ${VENTA_BRL_PYG} PYG`;
-
 document.getElementById("compra").innerText =
   `${COMPRA_BRL_PYG} PYG`;
 
