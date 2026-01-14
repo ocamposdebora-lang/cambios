@@ -3,76 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>D Ocampos Emprendimientos | Cambio</title>
+  <title>Cambio | D Ocampos Emprendimientos</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
   <header>
-    <img src="logo.png" alt="D Ocampos Emprendimientos" class="logo">
-    <h1>D Ocampos Emprendimientos</h1>
+    <img src="logo.png" class="logo" alt="D Ocampos Emprendimientos">
     <p class="ubicacion">Ciudad del Este – Paraguay</p>
   </header>
 
   <!-- Cotización -->
-  <div class="info cotizacion-box">
-    <div class="cotizacion-item">
-      <span>Compra BRL</span>
-      <b id="compra"></b>
+  <div class="cotizacion-box">
+    <div class="fila">
+      <span id="lblCompra"></span>
+      <strong id="compra"></strong>
     </div>
-    <div class="cotizacion-item">
-      <span>Venta BRL</span>
-      <b id="venta"></b>
+    <div class="fila">
+      <span id="lblVenta"></span>
+      <strong id="venta"></strong>
     </div>
     <div class="fecha">
-      Cotización válida:
+      <span id="lblFecha"></span>
       <span id="fecha"></span>
       <span id="hora"></span>
     </div>
   </div>
 
-  <!-- Tipo -->
-  <select id="tipo" onchange="actualizarOpciones()">
-    <option value="VENTA">Comprar Reales (PIX)</option>
-    <option value="COMPRA">Comprar Guaraníes</option>
-  </select>
+  <!-- Operación -->
+  <div class="opciones">
+    <button class="opcion" data-op="GS" id="btnGS"></button>
+    <button class="opcion" data-op="PIX" id="btnPIX"></button>
+  </div>
 
   <!-- Monto -->
-  <input type="text" id="monto" placeholder="Ingrese monto">
+  <input type="text" id="monto">
 
-  <!-- Zona -->
-  <div id="zona-container">
-    <select id="zona">
-      <option value="CDE">Ciudad del Este</option>
-      <option value="MINGA">Minga Guazú</option>
-      <option value="FRANCO">Presidente Franco</option>
-      <option value="BANCA">Banca Web</option>
+  <!-- GUANARÍES -->
+  <div id="bloqueGS" class="bloque">
+    <select id="formaGS">
+      <option value="ENTREGA"></option>
+      <option value="TRANSFERENCIA"></option>
+      <option value="SERVICIOS"></option>
     </select>
-    <p class="nota-zona">
-      Banca Web: transferencias bancarias y pagos de servicios
-    </p>
+
+    <select id="zona">
+      <option>Ciudad del Este</option>
+      <option>Minga Guazú</option>
+      <option>Presidente Franco</option>
+    </select>
+
+    <textarea id="detalleGS" placeholder=""></textarea>
   </div>
 
-  <!-- BOTÓN PERFECTO -->
-  <button class="btn-calcular" onclick="convertir()">
-    CALCULAR
-  </button>
+  <!-- PIX -->
+  <div id="bloquePIX" class="bloque">
+    <select id="formaPIX">
+      <option value="CHAVE"></option>
+      <option value="QR"></option>
+    </select>
 
-  <div class="resultado" id="resultado"></div>
-  <div class="detalle" id="detalle"></div>
-
-  <div class="legal">
-    • La cotización es referencial y puede variar al momento de la operación.<br>
-    • Operaciones sujetas a disponibilidad.<br>
-    • Tasas según zona de entrega.<br>
-    • Banca Web sin costo adicional.
+    <input type="text" id="pixDato" placeholder="">
   </div>
+
+  <button class="btn-principal" id="btnEnviar"></button>
+
+  <div class="legal" id="legal"></div>
 </div>
 
 <!-- WhatsApp -->
-<a class="whatsapp" href="#" id="whatsappLink" target="_blank">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+<a id="whatsappLink" class="whatsapp" target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
 </a>
 
 <script src="config.js"></script>
