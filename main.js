@@ -1,146 +1,60 @@
-document.addEventListener("DOMContentLoaded", () => {
+let mensajeFinal = '';
+const step1 = document.getElementById('step1');
+const step2 = document.getElementById('step2');
+const paso1 = document.getElementById('paso1');
+const paso2 = document.getElementById('paso2');
+const paso3 = document.getElementById('paso3');
 
-  // ===== MOSTRAR COTIZACIÓN =====
-  document.getElementById("compra").innerText = formatoPYG(COMPRA_BRL_PYG);
-  document.getElementById("venta").innerText = formatoPYG(VENTA_BRL_PYG);
-  document.getElementById("fecha").innerText = FECHA_COTIZACION;
+let tipoOperacion = '';
 
-  const inputMonto = document.getElementById("monto");
+document.querySelectorAll('.opcion').forEach(op => {
+  op.addEventListener('click', () => {
+    document.querySelectorAll('.opcion').forEach(o => o.classList.remove('activa'));
+    op.classList.add('activa');
+    tipoOperacion = op.dataset.tipo;
 
-  // ===== AJUSTES SEGÚN OPERACIÓN =====
-  window.actualizarOpciones = function () {
-    const tipo = document.getElementById("tipo").value;
-    const zonaContainer = document.getElementById("zona-container");
-
-    inputMonto.value = "";
-
-    if (tipo === "COMPRA") {
-      inputMonto.placeholder = "Ingrese monto en Guaraníes (PYG)";
-      zonaContainer.style.display = "block";
-    } else {
-      inputMonto.placeholder = "Ingrese monto en Reales (BRL)";
-      zonaContainer.style.display = "none";
-    }
-  };
-
-  actualizarOpciones();
-
-  // ===== PERMITIR ESCRIBIR NORMAL =====
-  inputMonto.addEventListener("input", () => {
-    inputMonto.value = inputMonto.value.replace(/[^\d.,]/g, "");
+    step1.classList.remove('activo');
+    step2.classList.add('activo');
+    paso1.classList.remove('activo');
+    paso2.classList.add('activo');
   });
-
-  // ===== FORMATEAR SOLO AL SALIR =====
-  inputMonto.addEventListener("blur", () => {
-    const tipo = document.getElementById("tipo").value;
-    const valor = limpiarNumero(inputMonto.value);
-    if (!valor) return;
-
-    if (tipo === "COMPRA") {
-      inputMonto.value = valor.toLocaleString("es-PY");
-    } else {
-      inputMonto.value = valor.toLocaleString("pt-BR", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-    }
-  });
-
-  // ===== TASAS =====
-  function obtenerTasa(zona) {
-    if (zona === "CDE") return 10;
-    if (zona === "MINGA") return 20;
-    if (zona === "FRANCO") return 15;
-    return 0;
-  }
-
-  // ===== CALCULAR =====
-  window.convertir = function () {
-    const tipo = document.getElementById("tipo").value;
-    const zona = document.getElementById("zona").value;
-    const resultadoEl = document.getElementById("resultado");
-    const detalleEl = document.getElementById("detalle");
-    const whatsappLink = document.getElementById("whatsappLink");
-
-    const monto = limpiarNumero(inputMonto.value);
-
-    if (!monto || monto <= 0) {
-      alert("Ingrese un monto válido");
-      return;
-    }
-
-    // ⏰ Hora real de la consulta
-    const ahora = new Date();
-    const horaConsulta =
-      ahora.getHours().toString().padStart(2, "0") + ":" +
-      ahora.getMinutes().toString().padStart(2, "0");
-
-    document.getElementById("hora").innerText = `(${horaConsulta} hs)`;
-
-    let mensaje = "";
-
-    // 🟢 COMPRAR GUARANÍES (PYG → BRL)
-    if (tipo === "COMPRA") {
-      const tasa = obtenerTasa(zona);
-      const brlBase = monto / COMPRA_BRL_PYG;
-      const brlFinal = brlBase + tasa;
-
-      resultadoEl.innerText = `${formatoBRL(brlFinal)} BRL`;
-
-      detalleEl.innerHTML = `
-        Operación: Comprar Guaraníes<br>
-        Monto: ${formatoPYG(monto)} PYG<br>
-        Cotización (Compra): 1 BRL = ${formatoPYG(COMPRA_BRL_PYG)} PYG<br>
-        Tasa entrega: +${formatoBRL(tasa)} BRL<br>
-        <b>Total: ${formatoBRL(brlFinal)} BRL</b>
-      `;
-
-      mensaje =
-        `Hola, quisiera consultar una cotización.\n` +
-        `Monto: ${formatoPYG(monto)} PYG\n` +
-        `Zona: ${zona}\n` +
-        `Cotización: ${FECHA_COTIZACION} ${horaConsulta}\n` +
-        `Total: ${formatoBRL(brlFinal)} BRL`;
-    }
-
-    // 🔵 COMPRAR PIX (BRL → PYG)
-    else {
-      const pyg = monto * VENTA_BRL_PYG;
-
-      resultadoEl.innerText = `${formatoPYG(pyg)} PYG`;
-
-      detalleEl.innerHTML = `
-        Operación: Comprar Reales (PIX)<br>
-        Monto: ${formatoBRL(monto)} BRL<br>
-        Cotización (Venta): 1 BRL = ${formatoPYG(VENTA_BRL_PYG)} PYG<br>
-        <b>Total: ${formatoPYG(pyg)} PYG</b>
-      `;
-
-      mensaje =
-        `Hola, quisiera consultar una cotización.\n` +
-        `Monto: ${formatoBRL(monto)} BRL\n` +
-        `Cotización: ${FECHA_COTIZACION} ${horaConsulta}\n` +
-        `Total: ${formatoPYG(pyg)} PYG`;
-    }
-
-    whatsappLink.href =
-      "https://wa.me/595982898734?text=" + encodeURIComponent(mensaje);
-  };
-
 });
 
-// ===== UTILIDADES =====
-function limpiarNumero(valor) {
-  return Number(valor.replace(/\./g, "").replace(",", "."));
+function volverPaso1() {
+  step2.classList.remove('activo');
+  step1.classList.add('activo');
+  paso2.classList.remove('activo');
+  paso1.classList.add('activo');
 }
 
-function formatoBRL(valor) {
-  return valor.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
+document.getElementById('btnSolicitar').addEventListener('click', () => {
+  const monto = document.getElementById('monto').value;
+  if (!monto) {
+    alert('Ingrese un monto');
+    return;
+  }
+
+  mensajeFinal =
+    'Solicitud de Operación\n' +
+    'Tipo: ' + (tipoOperacion === 'PIX' ? 'Comprar Reales (PIX)' : 'Comprar Guaraníes') + '\n' +
+    'Monto: ' + monto;
+
+  document.getElementById('resumenContenido').innerHTML =
+    '<b>Tipo:</b> ' + (tipoOperacion === 'PIX' ? 'Comprar Reales (PIX)' : 'Comprar Guaraníes') + '<br>' +
+    '<b>Monto:</b> ' + monto;
+
+  document.getElementById('resumenOverlay').classList.remove('oculto');
+  paso2.classList.remove('activo');
+  paso3.classList.add('activo');
+});
+
+function volverAEditar() {
+  document.getElementById('resumenOverlay').classList.add('oculto');
+  paso3.classList.remove('activo');
+  paso2.classList.add('activo');
 }
 
-function formatoPYG(valor) {
-  return valor.toLocaleString("es-PY");
+function enviarWhatsApp() {
+  const url = 'https://api.whatsapp.com/send?phone=595982898734&text=' + encodeURIComponent(mensajeFinal);
+  window.open(url, '_blank');
 }

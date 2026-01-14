@@ -3,79 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>D' Ocampos Emprendimientos | Cambio</title>
+  <title>Solicitud de Cambio</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
   <header>
-    <img src="logo.png" alt="D' Ocampos Emprendimientos" class="logo">
-    <h1>Servicios de Pagos y Transferencias</h1>
+    <img src="logo.png" class="logo" alt="Logo">
     <p class="ubicacion">Ciudad del Este – Paraguay</p>
   </header>
 
-  <!-- Cotización -->
-  <div class="info cotizacion-box">
-    <div class="cotizacion-item">
-      <span>Compra BRL</span>
-      <b id="compra"></b>
-    </div>
-    <div class="cotizacion-item">
-      <span>Venta BRL</span>
-      <b id="venta"></b>
-    </div>
-    <div class="fecha">
-      Cotización actualizada:
-      <span id="fecha"></span>
-      <span id="hora"></span>
-    </div>
+  <div class="pasos">
+    <div class="paso activo" id="paso1">1</div>
+    <div class="linea"></div>
+    <div class="paso" id="paso2">2</div>
+    <div class="linea"></div>
+    <div class="paso" id="paso3">3</div>
   </div>
 
-  <!-- Tipo -->
-  <select id="tipo" onchange="actualizarOpciones()">
-    <option value="VENTA">Comprar Reales (PIX)</option>
-    <option value="COMPRA">Comprar Guaraníes</option>
-  </select>
+  <div class="step activo" id="step1">
+    <label>Tipo de operación</label>
+    <div class="opciones">
+      <div class="opcion" data-tipo="PIX">💳<br>Comprar Reales (PIX)</div>
+      <div class="opcion" data-tipo="GS">💱<br>Comprar Guaraníes</div>
+    </div>
 
-  <!-- Monto -->
-  <input type="text" id="monto" placeholder="Ingrese monto">
-
-  <!-- Zona -->
-  <div id="zona-container">
-    <select id="zona">
-      <option value="CDE">Ciudad del Este</option>
-      <option value="MINGA">Minga Guazú</option>
-      <option value="FRANCO">Presidente Franco</option>
-      <option value="BANCA">Banca Web</option>
-    </select>
-    <p class="nota-zona">
-      Banca Web: transferencias bancarias y pagos de servicios
-    </p>
+    <label>Monto</label>
+    <input type="text" id="monto" placeholder="Ingrese monto">
   </div>
 
-  <!-- BOTÓN PERFECTO -->
-  <button class="btn-calcular" onclick="convertir()">
-    CALCULAR
-  </button>
-
-  <div class="resultado" id="resultado"></div>
-  <div class="detalle" id="detalle"></div>
-
-  <div class="legal">
-    • La cotización es referencial y puede variar al momento de la operación.<br>
-    • Operaciones sujetas a disponibilidad.<br>
-    • Tasas según zona de entrega.<br>
-    • Operaciones por Banca Web sin costo adicional (transferencias bancarias, pagos de facturas y servicios).
+  <div class="step" id="step2">
+    <button class="btn-volver" onclick="volverPaso1()">← Volver a editar</button>
+    <button class="btn-principal" id="btnSolicitar">Solicitar operación por WhatsApp</button>
   </div>
 </div>
 
-<!-- WhatsApp -->
-<a class="whatsapp" href="#" id="whatsappLink" target="_blank">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-</a>
+<div id="resumenOverlay" class="overlay oculto">
+  <div class="resumen-box">
+    <h3>Resumen</h3>
+    <div id="resumenContenido" class="resumen-contenido"></div>
+    <div class="resumen-botones">
+      <button class="btn-secundario" onclick="volverAEditar()">← Volver a editar</button>
+      <button class="btn-principal" onclick="enviarWhatsApp()">Confirmar y enviar</button>
+    </div>
+  </div>
+</div>
 
-<script src="config.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
