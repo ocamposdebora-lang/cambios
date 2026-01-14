@@ -1,198 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>D' Ocampos | Cambio</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cambio | D Ocampos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <main class="app" id="app">
-    <header class="header">
-      <img src="logo.png" class="logo" alt="D' Ocampos" />
-      <p class="ubicacion" id="txtUbicacion">Ciudad del Este – Paraguay</p>
-    </header>
+<main class="container">
 
-    <!-- Cotización -->
-    <section class="cotizacion">
-      <div class="cot-row">
-        <span id="txtCompra">Compra BRL</span>
-        <strong id="compra">-</strong>
-      </div>
-      <div class="cot-row">
-        <span id="txtVenta">Venta BRL</span>
-        <strong id="venta">-</strong>
-      </div>
+  <header>
+    <img src="logo.png" class="logo" alt="D Ocampos">
+    <p class="ubicacion">Ciudad del Este – Paraguay</p>
+  </header>
 
-      <div class="cot-fecha">
-        <span id="txtCotAct">Cotización actualizada:</span>
-        <span id="fecha"></span>
-        <span id="hora"></span>
-      </div>
-    </section>
+  <!-- PASOS -->
+  <div class="pasos">
+    <span id="pasoActual">Paso 1 de 3 · Calcular</span>
+  </div>
 
-    <!-- Operación (botones) -->
-    <section class="ops">
-      <p class="label" id="txtOperacion">Operación</p>
-      <div class="segmented" role="tablist" aria-label="Operación">
-        <button class="seg-btn active" id="btnGs" type="button">
-          💵 <span id="txtBtnGs">Comprar Guaraníes</span>
-        </button>
-        <button class="seg-btn" id="btnPix" type="button">
-          🇧🇷 <span id="txtBtnPix">Comprar PIX</span>
-        </button>
-      </div>
-    </section>
+  <!-- COTIZACIÓN -->
+  <section class="cotizacion">
+    <div class="fila">
+      <span>Compra BRL</span>
+      <strong id="compra"></strong>
+    </div>
+    <div class="fila">
+      <span>Venta BRL</span>
+      <strong id="venta"></strong>
+    </div>
+    <div class="fecha">
+      Cotización: <span id="fecha"></span> <span id="hora"></span>
+    </div>
+  </section>
 
-    <!-- Monto -->
-    <section class="card">
-      <label class="label" id="txtMontoLabel">Monto</label>
-      <input
-        id="monto"
-        type="text"
-        inputmode="decimal"
-        autocomplete="off"
-        placeholder=""
-      />
-      <p class="hint" id="txtMontoHint"></p>
-    </section>
+  <!-- OPERACIÓN -->
+  <section class="opciones">
+    <button id="btnGS" class="opcion activa">Comprar Guaraníes</button>
+    <button id="btnPIX" class="opcion">Comprar PIX</button>
+  </section>
 
-    <!-- Forma (solo Guaraníes) -->
-    <section class="card" id="panelFormaGs">
-      <label class="label" id="txtForma">Forma de operación</label>
-      <select id="formaGs">
-        <option value="EFECTIVO" id="optEfectivo">Entrega en efectivo</option>
-        <option value="TRANSFER" id="optTransfer">Transferencia bancaria (PY)</option>
-        <option value="SERVICIOS" id="optServicios">Pago de facturas y servicios</option>
+  <!-- MONTO -->
+  <section>
+    <label id="lblMonto">Monto</label>
+    <input id="monto" type="text" placeholder="Ingrese monto">
+    <p class="hint" id="hintMonto"></p>
+  </section>
+
+  <!-- CALCULAR -->
+  <button id="btnCalcular" class="btn-principal">CALCULAR</button>
+
+  <!-- RESULTADO -->
+  <section id="resultadoBox" class="resultado oculto">
+    <h2 id="resultado"></h2>
+  </section>
+
+  <!-- PASO 2 -->
+  <section id="paso2" class="oculto">
+    <h3>Forma de operación</h3>
+
+    <!-- GS -->
+    <div id="formaGS">
+      <select id="tipoGS">
+        <option value="EFECTIVO">Entrega en efectivo</option>
+        <option value="TRANSFER">Transferencia bancaria</option>
+        <option value="SERVICIOS">Pago de facturas y servicios</option>
       </select>
 
-      <!-- ZONA (solo efectivo) -->
-      <div id="panelZona" class="subpanel">
-        <label class="label" id="txtZona">Zona de entrega</label>
+      <div id="zonaBox">
+        <label>Zona</label>
         <select id="zona">
           <option value="CDE">Ciudad del Este</option>
           <option value="MINGA">Minga Guazú</option>
           <option value="FRANCO">Presidente Franco</option>
         </select>
-        <p class="hint" id="txtZonaHint"></p>
       </div>
 
-      <!-- TRANSFERENCIA -->
-      <div id="panelTransfer" class="subpanel">
-        <p class="mini-title" id="txtTransferTitle">Datos para transferencia</p>
+      <textarea id="detalleGS" placeholder="Datos adicionales (si corresponde)"></textarea>
+    </div>
 
-        <div class="radio-row">
-          <label class="radio">
-            <input type="radio" name="tieneAlias" value="SI" checked />
-            <span id="txtConAlias">Tengo alias</span>
-          </label>
-          <label class="radio">
-            <input type="radio" name="tieneAlias" value="NO" />
-            <span id="txtSinAlias">No tengo alias</span>
-          </label>
-        </div>
+    <!-- PIX -->
+    <div id="formaPIX" class="oculto">
+      <label>Chave PIX</label>
+      <input id="chavePix" type="text">
+      <label>Titular</label>
+      <input id="titularPix" type="text">
+      <textarea id="obsPix" placeholder="QR / Link / Boleta (se envía por WhatsApp)"></textarea>
+    </div>
+  </section>
 
-        <div id="transferAlias">
-          <label class="label" id="txtAlias">Alias</label>
-          <input id="alias" type="text" autocomplete="off" />
-          <label class="label" id="txtTitular1">Titular</label>
-          <input id="titularAlias" type="text" autocomplete="off" />
-        </div>
+  <!-- PASO 3 -->
+  <section id="paso3" class="oculto">
+    <button id="btnWhatsapp" class="btn-wa">
+      Solicitar operación por WhatsApp
+    </button>
+  </section>
 
-        <div id="transferCuenta" class="hidden">
-          <label class="label" id="txtNroCuenta">Número de cuenta</label>
-          <input id="nroCuenta" type="text" autocomplete="off" />
+</main>
 
-          <label class="label" id="txtBanco">Banco</label>
-          <input id="banco" type="text" autocomplete="off" />
-
-          <label class="label" id="txtDoc">Número de CI</label>
-          <input id="doc" type="text" autocomplete="off" />
-
-          <label class="label" id="txtTitular2">Titular</label>
-          <input id="titularCuenta" type="text" autocomplete="off" />
-        </div>
-      </div>
-
-      <!-- SERVICIOS -->
-      <div id="panelServicios" class="subpanel">
-        <p class="mini-title" id="txtServiciosTitle">Pago de facturas / servicios</p>
-
-        <label class="label" id="txtTipoServicio">Tipo</label>
-        <select id="tipoServicio">
-          <option value="ANDE">ANDE</option>
-          <option value="TELCO" id="optTelco">Telefonía / Internet</option>
-          <option value="OTROS" id="optOtros">Otros pagos</option>
-        </select>
-
-        <div id="servAnde">
-          <label class="label" id="txtNis">Número de NIS</label>
-          <input id="nis" type="text" autocomplete="off" />
-        </div>
-
-        <div id="servTelco" class="hidden">
-          <label class="label" id="txtContrato">N° de cuenta / contrato / línea</label>
-          <input id="contrato" type="text" autocomplete="off" />
-        </div>
-
-        <div id="servOtros" class="hidden">
-          <label class="label" id="txtDetallePago">Detalle del pago</label>
-          <textarea id="detallePago" rows="3" placeholder="Escriba qué necesita pagar..."></textarea>
-        </div>
-
-        <p class="hint" id="txtServiciosHint">
-          * Si el pago requiere QR/link/boleta, se envía por WhatsApp luego de la solicitud.
-        </p>
-      </div>
-    </section>
-
-    <!-- PIX (solo PIX) -->
-    <section class="card hidden" id="panelPix">
-      <p class="mini-title" id="txtPixTitle">Datos PIX</p>
-
-      <label class="label" id="txtChave">Chave PIX</label>
-      <input id="chavePix" type="text" autocomplete="off" placeholder="Teléfono / Email / CPF / Aleatoria" />
-
-      <label class="label" id="txtTitularPix">Titular</label>
-      <input id="titularPix" type="text" autocomplete="off" />
-
-      <label class="label" id="txtObsPix">Observación (opcional)</label>
-      <textarea id="obsPix" rows="3" placeholder="Ej: pago con QR, link o boleta (enviar por WhatsApp)"></textarea>
-    </section>
-
-    <!-- Botón calcular -->
-    <button class="btn-primary" id="btnCalcular" type="button">CALCULAR</button>
-
-    <!-- Resultado -->
-    <section class="resultado" id="resultadoWrap">
-      <h2 class="resultado-valor" id="resultadoValor">—</h2>
-
-      <div class="resumen" id="resumenBox">
-        <p class="res-title" id="txtResumen">Resumen</p>
-        <div class="res-grid" id="resumenTexto"></div>
-      </div>
-    </section>
-
-    <!-- WhatsApp CTA -->
-    <section class="cta">
-      <a class="btn-wa" id="btnWhatsapp" href="#" target="_blank" rel="noopener">
-        <span class="wa-ico">🟢</span>
-        <span id="txtBtnWhatsapp">Solicitar operación por WhatsApp</span>
-      </a>
-      <p class="cta-hint" id="txtCtaHint">Se abrirá WhatsApp con tu solicitud lista para enviar.</p>
-    </section>
-
-    <!-- Legal -->
-    <footer class="legal" id="legal">
-      • La cotización es referencial y puede variar al momento de la operación.<br>
-      • Operaciones sujetas a disponibilidad.<br>
-      • Tasas según zona de entrega (solo efectivo).<br>
-      • Transferencias y pagos sin costo adicional.
-    </footer>
-  </main>
-
-  <script src="config.js"></script>
-  <script src="main.js"></script>
+<script src="config.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
