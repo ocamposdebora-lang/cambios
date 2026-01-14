@@ -97,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       mensaje =
         `Consulta – Comprar Guaraníes\n` +
-        `Hola, quisiera consultar una cotización.\n` +
         `Monto: ${formatoPYG(monto)} PYG\n` +
         `Zona: ${zona}\n` +
         `Cotización: ${FECHA_COTIZACION} ${horaConsulta}\n` +
@@ -119,7 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       mensaje =
         `Consulta – Comprar PIX\n` +
-        `Hola, quisiera consultar una cotización.\n` +
         `Monto: ${formatoBRL(monto)} BRL\n` +
         `Cotización: ${FECHA_COTIZACION} ${horaConsulta}\n` +
         `Total: ${formatoPYG(pyg)} PYG`;
