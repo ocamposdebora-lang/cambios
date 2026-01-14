@@ -1,146 +1,119 @@
-document.addEventListener("DOMContentLoaded", () => {
+const idioma = navigator.language.startsWith("pt") ? "pt" : "es";
 
-  // ===== MOSTRAR COTIZACIÓN =====
-  document.getElementById("compra").innerText = formatoPYG(COMPRA_BRL_PYG);
-  document.getElementById("venta").innerText = formatoPYG(VENTA_BRL_PYG);
-  document.getElementById("fecha").innerText = FECHA_COTIZACION;
-
-  const inputMonto = document.getElementById("monto");
-
-  // ===== AJUSTES SEGÚN OPERACIÓN =====
-  window.actualizarOpciones = function () {
-    const tipo = document.getElementById("tipo").value;
-    const zonaContainer = document.getElementById("zona-container");
-
-    inputMonto.value = "";
-
-    if (tipo === "COMPRA") {
-      inputMonto.placeholder = "Ingrese monto en Guaraníes (PYG)";
-      zonaContainer.style.display = "block";
-    } else {
-      inputMonto.placeholder = "Ingrese monto en Reales (BRL)";
-      zonaContainer.style.display = "none";
-    }
-  };
-
-  actualizarOpciones();
-
-  // ===== PERMITIR ESCRIBIR NORMAL =====
-  inputMonto.addEventListener("input", () => {
-    inputMonto.value = inputMonto.value.replace(/[^\d.,]/g, "");
-  });
-
-  // ===== FORMATEAR SOLO AL SALIR =====
-  inputMonto.addEventListener("blur", () => {
-    const tipo = document.getElementById("tipo").value;
-    const valor = limpiarNumero(inputMonto.value);
-    if (!valor) return;
-
-    if (tipo === "COMPRA") {
-      inputMonto.value = valor.toLocaleString("es-PY");
-    } else {
-      inputMonto.value = valor.toLocaleString("pt-BR", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-    }
-  });
-
-  // ===== TASAS =====
-  function obtenerTasa(zona) {
-    if (zona === "CDE") return 10;
-    if (zona === "MINGA") return 20;
-    if (zona === "FRANCO") return 15;
-    return 0;
+const txt = {
+  es: {
+    compra: "Compra BRL",
+    venta: "Venta BRL",
+    fecha: "Cotización:",
+    gs: "Comprar Guaraníes",
+    pix: "Comprar PIX",
+    entrega: "Entrega física",
+    transf: "Transferencia bancaria",
+    servicios: "Pago de facturas y servicios",
+    chave: "PIX por chave",
+    qr: "PIX con QR / Link",
+    enviar: "Solicitar operación por WhatsApp",
+    legal:
+      "• Cotización referencial.\n• Operaciones sujetas a disponibilidad.\n• Transferencias y pagos sin costo adicional."
+  },
+  pt: {
+    compra: "Compra BRL",
+    venta: "Venda BRL",
+    fecha: "Cotação:",
+    gs: "Comprar Guaranis",
+    pix: "Comprar PIX",
+    entrega: "Entrega física",
+    transf: "Transferência bancária",
+    servicios: "Pagamento de contas e serviços",
+    chave: "PIX por chave",
+    qr: "PIX com QR / Link",
+    enviar: "Solicitar operação pelo WhatsApp",
+    legal:
+      "• Cotação referencial.\n• Operações sujeitas à disponibilidade.\n• Transferências e pagamentos sem custo."
   }
+};
 
-  // ===== CALCULAR =====
-  window.convertir = function () {
-    const tipo = document.getElementById("tipo").value;
-    const zona = document.getElementById("zona").value;
-    const resultadoEl = document.getElementById("resultado");
-    const detalleEl = document.getElementById("detalle");
-    const whatsappLink = document.getElementById("whatsappLink");
+const $ = id => document.getElementById(id);
 
-    const monto = limpiarNumero(inputMonto.value);
+$("lblCompra").innerText = txt[idioma].compra;
+$("lblVenta").innerText = txt[idioma].venta;
+$("lblFecha").innerText = txt[idioma].fecha;
+$("btnGS").innerText = txt[idioma].gs;
+$("btnPIX").innerText = txt[idioma].pix;
+$("formaGS").options[0].text = txt[idioma].entrega;
+$("formaGS").options[1].text = txt[idioma].transf;
+$("formaGS").options[2].text = txt[idioma].servicios;
+$("formaPIX").options[0].text = txt[idioma].chave;
+$("formaPIX").options[1].text = txt[idioma].qr;
+$("btnEnviar").innerText = txt[idioma].enviar;
+$("legal").innerText = txt[idioma].legal;
 
-    if (!monto || monto <= 0) {
-      alert("Ingrese un monto válido");
-      return;
-    }
+$("compra").innerText = COMPRA_BRL_PYG.toLocaleString("es-PY");
+$("venta").innerText = VENTA_BRL_PYG.toLocaleString("es-PY");
+$("fecha").innerText = FECHA_COTIZACION;
 
-    // ⏰ Hora real de la consulta
-    const ahora = new Date();
-    const horaConsulta =
-      ahora.getHours().toString().padStart(2, "0") + ":" +
-      ahora.getMinutes().toString().padStart(2, "0");
+let operacion = "";
 
-    document.getElementById("hora").innerText = `(${horaConsulta} hs)`;
-
-    let mensaje = "";
-
-    // 🟢 COMPRAR GUARANÍES (PYG → BRL)
-    if (tipo === "COMPRA") {
-      const tasa = obtenerTasa(zona);
-      const brlBase = monto / COMPRA_BRL_PYG;
-      const brlFinal = brlBase + tasa;
-
-      resultadoEl.innerText = `${formatoBRL(brlFinal)} BRL`;
-
-      detalleEl.innerHTML = `
-        Operación: Comprar Guaraníes<br>
-        Monto: ${formatoPYG(monto)} PYG<br>
-        Cotización (Compra): 1 BRL = ${formatoPYG(COMPRA_BRL_PYG)} PYG<br>
-        Tasa entrega: +${formatoBRL(tasa)} BRL<br>
-        <b>Total: ${formatoBRL(brlFinal)} BRL</b>
-      `;
-
-      mensaje =
-        `Consulta – Comprar Guaraníes\n` +
-        `Monto: ${formatoPYG(monto)} PYG\n` +
-        `Zona: ${zona}\n` +
-        `Cotización: ${FECHA_COTIZACION} ${horaConsulta}\n` +
-        `Total: ${formatoBRL(brlFinal)} BRL`;
-    }
-
-    // 🔵 COMPRAR PIX (BRL → PYG)
-    else {
-      const pyg = monto * VENTA_BRL_PYG;
-
-      resultadoEl.innerText = `${formatoPYG(pyg)} PYG`;
-
-      detalleEl.innerHTML = `
-        Operación: Comprar Reales (PIX)<br>
-        Monto: ${formatoBRL(monto)} BRL<br>
-        Cotización (Venta): 1 BRL = ${formatoPYG(VENTA_BRL_PYG)} PYG<br>
-        <b>Total: ${formatoPYG(pyg)} PYG</b>
-      `;
-
-      mensaje =
-        `Consulta – Comprar PIX\n` +
-        `Monto: ${formatoBRL(monto)} BRL\n` +
-        `Cotización: ${FECHA_COTIZACION} ${horaConsulta}\n` +
-        `Total: ${formatoPYG(pyg)} PYG`;
-    }
-
-    whatsappLink.href =
-      "https://wa.me/595982898734?text=" + encodeURIComponent(mensaje);
+document.querySelectorAll(".opcion").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".opcion").forEach(x => x.classList.remove("activo"));
+    b.classList.add("activo");
+    operacion = b.dataset.op;
+    $("bloqueGS").style.display = operacion === "GS" ? "block" : "none";
+    $("bloquePIX").style.display = operacion === "PIX" ? "block" : "none";
+    $("monto").value = "";
   };
-
 });
 
-// ===== UTILIDADES =====
-function limpiarNumero(valor) {
-  return Number(valor.replace(/\./g, "").replace(",", "."));
-}
+$("monto").addEventListener("input", () => {
+  let v = $("monto").value.replace(/\D/g, "");
+  if (operacion === "PIX") {
+    if (v.length < 3) v = v.padStart(3, "0");
+    $("monto").value =
+      v.slice(0, -2).replace(/\B(?=(\d{3})+(?!\d))/g, ".") +
+      "," +
+      v.slice(-2);
+  } else {
+    $("monto").value = v.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+});
 
-function formatoBRL(valor) {
-  return valor.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-}
+$("btnEnviar").onclick = () => {
+  if (!operacion || !$("monto").value) return alert("Complete los datos");
 
-function formatoPYG(valor) {
-  return valor.toLocaleString("es-PY");
-}
+  const ahora = new Date();
+  $("hora").innerText =
+    "(" +
+    ahora.toLocaleTimeString(idioma === "pt" ? "pt-BR" : "es-PY", {
+      hour: "2-digit",
+      minute: "2-digit"
+    }) +
+    ")";
+
+  let msg = `📩 ${txt[idioma].enviar}\n\n`;
+
+  msg +=
+    (operacion === "GS" ? "💱 " + txt[idioma].gs : "💳 " + txt[idioma].pix) +
+    "\n";
+
+  msg += `Monto: ${$("monto").value}\n`;
+
+  if (operacion === "GS") {
+    msg += `Forma: ${$("formaGS").selectedOptions[0].text}\n`;
+    msg += `Zona: ${$("zona").value}\n`;
+    if ($("detalleGS").value) msg += `Detalle: ${$("detalleGS").value}\n`;
+  }
+
+  if (operacion === "PIX") {
+    msg += `Forma: ${$("formaPIX").selectedOptions[0].text}\n`;
+    if ($("pixDato").value) msg += `Dato: ${$("pixDato").value}\n`;
+  }
+
+  msg += `\n📅 ${FECHA_COTIZACION}`;
+
+  $("whatsappLink").href =
+    "https://wa.me/595982898734?text=" +
+    encodeURIComponent(msg);
+
+  $("whatsappLink").click();
+};
