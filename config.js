@@ -1,6 +1,6 @@
 // EDITÁS SOLO ESTO
-const COMPRA_BRL_PYG = 1195; // Compra
-const VENTA_BRL_PYG  = 1255; // Venta
+const COMPRA_BRL_PYG = 1185; // Compra
+const VENTA_BRL_PYG  = 1245; // Venta
 
 const FECHA_COTIZACION = "13/01/2026";
 const HORA_COTIZACION  = "18:04";
