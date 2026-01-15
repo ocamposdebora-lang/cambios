@@ -1,5 +1,5 @@
 // EDITÁS SOLO ESTO
-const COMPRA_BRL_PYG = 1185; // Compra
+const COMPRA_BRL_PYG = 1195; // Compra
 const VENTA_BRL_PYG  = 1245; // Venta
 
 const FECHA_COTIZACION = "15/01/2026";
