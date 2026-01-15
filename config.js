@@ -2,7 +2,7 @@
 const COMPRA_BRL_PYG = 1185; // Compra
 const VENTA_BRL_PYG  = 1245; // Venta
 
-const FECHA_COTIZACION = "13/01/2026";
-const HORA_COTIZACION  = "18:04";
+const FECHA_COTIZACION = "15/01/2026";
+const HORA_COTIZACION  = "15:04";
 
 const WHATSAPP_NUM = "595982898734";
